@@ -7,14 +7,26 @@
 
 import SwiftUI
 
-enum categoryEnum: String, CaseIterable {
-    case Food = "Food 🍔"
-    case Transport = "Transport 🚗"
-    case Entertainment = "Entertainment 🎬"
-    case Shopping = "Shopping 🛍️"
-    case Utilities = "Utilities 💡"
-    case Other = "Other 📦"
+enum categoryEnum: String, Codable, CaseIterable {
+    case Food = "Food"
+    case Transport = "Transport"
+    case Entertainment = "Entertainment"
+    case Shopping = "Shopping"
+    case Utilities = "Utilities"
+    case Other = "Other"
     case None = "Select"
+    
+    var emoji: String {
+            switch self {
+                case .Food: return "🍔"
+                case .Transport: return "🚗"
+                case .Shopping: return "🛍️"
+                case .Entertainment: return "🎬"
+                case .Utilities: return "💡"
+                case .Other: return "📦"
+                case .None: return ""
+            }
+        }
 }
 
 struct AddExpenseView: View {
@@ -24,6 +36,7 @@ struct AddExpenseView: View {
     @State private var date: Date = Date()
     @State private var isDateToday: Bool = true
     @State private var isLoading: Bool = false
+    @StateObject var viewModel = MainViewModel()
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
@@ -36,7 +49,7 @@ struct AddExpenseView: View {
                                     .font(.system(size: 14, weight: .semibold))
                                     .foregroundColor(AppColors.textSecondary)
                                 HStack {
-                                    Text("$").font(.system(size: 27, weight: .bold))
+                                    Text("\(viewModel.currency == .USD ? "$" : "₺")").font(.system(size: 27, weight: .bold))
                                         .foregroundColor(AppColors.textPrimary)
                                     TextField(text: $amountString, prompt: Text("2500.00")) {
                                         
@@ -108,10 +121,20 @@ struct AddExpenseView: View {
                                 isLoading = true
                                 NotificationCenter.default.post(name: NSNotification.Name("lock"), object: nil)
                             }
-                            
-                            
-                            //NotificationCenter.default.post(name: NSNotification.Name("unlock"), object: nil)
-                            //NotificationCenter.default.post(name: NSNotification.Name("askim"), object: nil)
+                            Task {
+                                await FirebaseExpenseProcess().saveExpense(expense: Expense(description: description, amountString: amountString, category: category, date: isDateToday == true ? Date() : date))
+                                
+                                // <--> Default hale Getir <-->
+                                isLoading = false
+                                description = ""
+                                amountString = ""
+                                category = .None
+                                isDateToday = true
+                                // <--> Default hale Getir <-->
+                                
+                                NotificationCenter.default.post(name: NSNotification.Name("unlock"), object: nil)
+                                NotificationCenter.default.post(name: NSNotification.Name("askim"), object: nil)
+                            }
                         } label: {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 20).fill(Color(.secondarySystemGroupedBackground))
@@ -128,6 +151,9 @@ struct AddExpenseView: View {
             }.padding()
             .navigationTitle("Add Expense")
             .disabled(isLoading)
+            .onAppear{
+                viewModel.listenCurrency()
+            }
         }
     }
 }

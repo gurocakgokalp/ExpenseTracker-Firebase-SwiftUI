@@ -40,29 +40,25 @@ struct WelcomeView: View {
                         .opacity(0.7)
                         .frame(height: 200)
                     VStack {
-                        Button {
-                            //
-                        } label: {
+                        NavigationLink(destination: SignUpView().tint(.green)) {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 20).fill(AppColors.bgPrimary)
                                     .frame(height: 50)
                                 ZStack {
-                                    Text("Get Started").bold().foregroundStyle(AppColors.textPrimary).opacity(isLoading == true ? 0 : 1)
+                                    Text("Get Started").fontWeight(.heavy).foregroundStyle(.green.opacity(0.7))
+                                        .shadow(color: .green, radius: 10)
+                                        .opacity(isLoading == true ? 0 : 1)
                                     ProgressView().opacity(isLoading == false ? 0 : 1)
                                 }
                                 .padding()
                             }
-                            
                         }
-                        NavigationLink(destination: <#T##() -> View#>, label: <#T##() -> View#>)
-                        Button {
-                            //
-                        } label: {
+                        NavigationLink(destination: LogInView().tint(.green)) {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 20).fill(AppColors.bgPrimary)
                                     .frame(height: 50)
                                 ZStack {
-                                    Text("Already have account? Sign In").fontWeight(.heavy).foregroundStyle(.green.opacity(0.7)).opacity(isLoading == true ? 0 : 1)
+                                    Text("Already have account? Sign In").fontWeight(.bold).foregroundStyle(AppColors.textPrimary).opacity(isLoading == true ? 0 : 1)
                                     ProgressView().opacity(isLoading == false ? 0 : 1)
                                 }
                                 .padding()
@@ -71,7 +67,7 @@ struct WelcomeView: View {
                         }
                     }.padding()
                 }.offset(y: 150)
-            }
+            }.tint(.green)
                 //.offset(y: -300)
         }
     }

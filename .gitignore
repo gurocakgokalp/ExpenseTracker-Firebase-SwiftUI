@@ -1,0 +1,61 @@
+# -------------------------------
+# Xcode / iOS Build Artifacts
+# -------------------------------
+.DS_Store
+build/
+DerivedData/
+*.xcuserstate
+*.xcuserdata/
+*.xccheckout
+*.moved-aside
+*.xcscmblueprint
+
+# -------------------------------
+# Swift Package Manager
+# -------------------------------
+.swiftpm
+.build/
+
+# -------------------------------
+# Cocoapods (kullanmıyorsan da sorun değil)
+# -------------------------------
+Pods/
+Podfile.lock
+
+# -------------------------------
+# Firebase / Google Services
+# -------------------------------
+GoogleService-Info.plist
+*GoogleService-Info*.plist
+GoogleService-Info-debug.plist
+GoogleService-Info-release.plist
+
+# Firebase Crashlytics
+firebase_app_id_file.json
+
+# -------------------------------
+# Carthage
+# -------------------------------
+Carthage/Build/
+
+# -------------------------------
+# Fastlane
+# -------------------------------
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+
+# -------------------------------
+# User-specific Xcode settings
+# -------------------------------
+*.swp
+*.perspectivev3
+*.perspectivev1
+
+# -------------------------------
+# App secrets / env
+# -------------------------------
+.env
+*.key
+*.pem

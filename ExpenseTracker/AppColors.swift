@@ -71,6 +71,45 @@ struct AppColors {
     static let shadowDark = Color.black.opacity(0.3)
 }
 
+class Colors {
+    func categoryColors (catEnum: categoryEnum) -> Color {
+        switch catEnum {
+        case .Food:
+            AppColors.catFood
+        case .Transport:
+            AppColors.catTransport
+        case .Entertainment:
+            AppColors.catEntertainment
+        case .Shopping:
+            AppColors.catShopping
+        case .Utilities:
+            AppColors.catUtilities
+        case .Other:
+            AppColors.catOther
+        case .None:
+            AppColors.bgTertiary
+        }
+    }
+    func catagoryEmojis (catEnum: categoryEnum) -> String {
+        switch catEnum {
+        case .Food:
+            return "🍔"
+        case .Transport:
+            return "🚗"
+        case .Entertainment:
+            return "🎬"
+        case .Shopping:
+            return "🛍️"
+        case .Utilities:
+            return "💡"
+        case .Other:
+            return "📦"
+        case .None:
+            return ""
+        }
+    }
+}
+
 // MARK: - Category Color Mapping
 struct CategoryColor {
     static let mapping: [String: Color] = [
@@ -97,25 +136,28 @@ struct BudgetStatusColor {
         } else if percentage > 0.95 {          // >95% used
             return AppColors.warning           // 🟡 Orange
         } else if percentage > 0.80 {          // >80% used
-            return AppColors.info              // 🔵 Cyan (light blue)
-        } else {                               // Safe
-            return AppColors.success           // 🟢 Green
+            return AppColors.info
+        } else {
+            return AppColors.success
         }
     }
     
-    static func statusText(used: Double, total: Double) -> String {
+    static func statusText(used: Double, total: Double, currency: currencyEnum) -> String {
         let percentage = used / total
         
         if percentage > 1.0 {
             let over = (used - total)
-            return "Over Budget by $\(String(format: "%.2f", over))"
+            return "Over Budget by \(currency == .USD ? "$" : "₺")\(String(format: "%.2f", over))"
         } else if percentage > 0.95 {
             return "Budget Warning - Almost at limit!"
         } else if percentage > 0.80 {
             return "\(Int(percentage * 100))% of budget used"
-        } else {
+        } else if percentage == 0 {
+            return "Start tracking your spending."
+        }
+        else {
             let remaining = total - used
-            return "Budget OK - $\(String(format: "%.2f", remaining)) remaining"
+            return "Budget OK - \(currency == .USD ? "$" : "₺")\(String(format: "%.2f", remaining)) remaining"
         }
     }
 }

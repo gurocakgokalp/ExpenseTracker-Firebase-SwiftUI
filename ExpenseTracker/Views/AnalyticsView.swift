@@ -28,117 +28,115 @@ var weeklyChart = [
 ]
 
 struct AnalyticsView: View {
-    @State var timePeriod: pieTimePeriod = .Monthly
+    @State var timePeriod: pieTimePeriod = .AllTime
+    @StateObject var viewModel = MainViewModel()
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
                 ScrollView {
                     VStack {
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 20).fill(Color(.secondarySystemGroupedBackground))
-                            VStack(alignment: .leading) {
-                                HStack {
-                                    Text("Spending by Category")
-                                        .font(.system(size: 14, weight: .semibold))
-                                        .foregroundColor(AppColors.textSecondary)
-                                    Picker("", selection: $timePeriod) {
-                                        ForEach(pieTimePeriod.allCases, id: \.self) { period in
-                                            Text(period.rawValue).bold().foregroundStyle(.green)
-                                        }
-                                        }
-                                    .pickerStyle(.navigationLink)
-                                        //.frame(width: 150)
-                                }
-                                Spacer(minLength: 80)
-                                ZStack {
-                                    Chart {
-                                        ForEach(catagoryChart, id: \.catagory) { catagory in
-                                            SectorMark(angle: .value("Amount", catagory.amount), innerRadius: .ratio(0.6),angularInset: 1)
-                                                .foregroundStyle(CategoryColor.color(for:catagory.catagory))
-                                                .cornerRadius(3)
-                                                .annotation(position: .overlay) {
-                                                    Text("$\(catagory.amount)").font(.system(size: 5)).bold()
+                        if !viewModel.expenses.isEmpty {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 20).fill(Color(.secondarySystemGroupedBackground))
+                                VStack(alignment: .leading) {
+                                    HStack {
+                                        Text("Spending by Category")
+                                            .font(.system(size: 14, weight: .semibold))
+                                            .foregroundColor(AppColors.textSecondary)
+                                        Picker("", selection: $timePeriod) {
+                                            ForEach(pieTimePeriod.allCases, id: \.self) { period in
+                                                Text(period.rawValue).bold().foregroundStyle(.green)
+                                            }
+                                            }
+                                        .pickerStyle(.navigationLink)
+                                            //.frame(width: 150)
+                                    }
+                                    Spacer(minLength: 80)
+                                    ZStack {
+                                        Chart {
+                                            ForEach(viewModel.categoryChart, id: \.category) { data in
+                                                SectorMark(
+                                                    angle: .value("Amount", data.amount),
+                                                    innerRadius: .ratio(0.6),
+                                                    angularInset: 1
+                                                    )
+                                                    .foregroundStyle(CategoryColor.color(for: data.category))
+                                                    .cornerRadius(3)
+                                                    .annotation(position: .overlay) {
+                                                        //Text("\(viewModel.currency == .USD ? "$" : "₺")\(String(format: "%.0f", data.amount))")
+                                                    //.font(.system(size: 10))
+                                                //.bold()
                                                 }
-                                        }
-                                    }.scaleEffect(2)
-                                    Text("$3400").fontWeight(.heavy).font(.system(size: 20))
-                                }
-                                
-                                Spacer(minLength: 80)
-                                VStack(alignment: .leading) {
-                                    HStack {
-                                        ForEach(["Food", "Transport", "Shopping","Entertainment"], id: \.self) { category in
-                                            HStack {
-                                                Circle()
-                                                    .fill(CategoryColor.color(for: category))
-                                                    .frame(width: 10, height: 10)
-                                                
-                                                Text(category)
-                                                    .foregroundColor(AppColors.textPrimary).font(.system(size: 12))
                                             }
-                                        }
+                                        }.scaleEffect(2)
+                                        Text("\(viewModel.currency == .USD ? "$" : "₺")\(String(format: "%.2f", viewModel.totalSpending))").fontWeight(.heavy).font(.system(size: 20))
                                     }
-                                    HStack {
-                                        ForEach(["Utilities", "Other"], id: \.self) { category in
-                                            HStack {
-                                                Circle()
-                                                    .fill(CategoryColor.color(for: category))
-                                                    .frame(width: 10, height: 10)
-                                                
-                                                Text(category)
-                                                    .foregroundColor(AppColors.textPrimary)
-                                                    .font(.system(size: 12))
-                                            }
-                                        }
-                                    }
-                                }
-                            }.padding(AppTypography.lg)
-                        }
-                        Spacer(minLength: 20)
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 20).fill(Color(.secondarySystemGroupedBackground))
-                            VStack(alignment: .leading) {
-                                HStack {
-                                    Text("Smart Insights")
+                                    Spacer(minLength: 80)
+                                    Text("Details")
                                         .font(.system(size: 14, weight: .semibold))
                                         .foregroundColor(AppColors.textSecondary)
-                                    Spacer()
-                                }
-                                Spacer(minLength: 10)
+                                    Spacer(minLength: 10)
+                                    ForEach(viewModel.categoryChart, id: \.category) { data in
+                                        HStack {
+                                            Circle()
+                                                .fill(CategoryColor.color(for: data.category))
+                                                .frame(width: 12, height: 12)
+                                            Text(data.category)
+                                                .font(.system(size: 14, weight: .medium))
+                                                .foregroundColor(AppColors.textPrimary)
+                                                Spacer()
+                                            Text("\(viewModel.currency == .USD ? "$" : "₺")\(String(format: "%.2f", data.amount))")
+                                                .font(.system(size: 14, weight: .semibold))
+                                                .foregroundColor(AppColors.textPrimary)
+                                        }
+                                        .padding(.vertical, 8)
+                                    }
+                                }.padding(AppTypography.lg)
+                            }
+                            //Spacer(minLength: 20)
+                            //SmartInsightsView(viewModel: viewModel)
+                            //Spacer(minLength: 20)
+                            /*
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 20).fill(Color(.secondarySystemGroupedBackground))
                                 VStack(alignment: .leading) {
-                                    HStack {
-                                        Text("💡").font(.system(size: 20))
-                                        Text("Daily average: $78.50").fontWeight(.semibold)
+                                    Text("Weekly Spending Trend")
+                                        .font(.system(size: 14, weight: .semibold))
+                                        .foregroundColor(AppColors.textSecondary)
+                                    Spacer(minLength: 20)
+                                    Chart {
+                                        ForEach(weeklyChart, id: \.catagory) { catagory in
+                                            BarMark(x: .value("Weekly", catagory.catagory), y: .value("Spend", catagory.amount))
+                                                .foregroundStyle(.green)
+                                                .cornerRadius(10)
+                                        }
                                     }
-                                    RoundedRectangle(cornerRadius: 20 ).frame(height: 0.7).foregroundStyle(.gray).opacity(0.5)
-                                    HStack {
-                                        Text("📈").font(.system(size: 20))
-                                        Text("Spending trend: Slightly increasing ↑").fontWeight(.semibold)
-                                    }
-                                }
-                            }.padding(AppTypography.lg)
-                        }
-                        Spacer(minLength: 20)
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 20).fill(Color(.secondarySystemGroupedBackground))
-                            VStack(alignment: .leading) {
-                                Text("Weekly Spending Trend")
-                                    .font(.system(size: 14, weight: .semibold))
+                                }.padding(AppTypography.lg)
+                            }
+                             */
+                        } else {
+                            VStack {
+                                Spacer(minLength: 240)
+                                Image(systemName: "chart.bar.fill").foregroundStyle(AppColors.textSecondary).font(.system(size: 29, weight: .bold))
+                                Spacer(minLength: 10)
+                                Text("No data yet.")
+                                    .font(.system(size: 26, weight: .bold))
                                     .foregroundColor(AppColors.textSecondary)
-                                Spacer(minLength: 20)
-                                Chart {
-                                    ForEach(weeklyChart, id: \.catagory) { catagory in
-                                        BarMark(x: .value("Weekly", catagory.catagory), y: .value("Spend", catagory.amount))
-                                            .foregroundStyle(.green)
-                                            .cornerRadius(10)
-                                    }
-                                }
-                            }.padding(AppTypography.lg)
+                                Spacer()
+                            }
                         }
                     }
                 }.scrollIndicators(.hidden)
+                    .refreshable {
+                        //
+                    }
             }.navigationTitle("Analytics")
                 .padding()
+                .onAppear{
+                    viewModel.listenCurrency()
+                    viewModel.fetchTotalExpenses()
+                    viewModel.fetchAllCategoryExpenses()
+            }
         }
     }
 }

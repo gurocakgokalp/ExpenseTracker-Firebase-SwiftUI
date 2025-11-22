@@ -6,10 +6,36 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct AuthRouterView: View {
+    @State private var isLoggedIn: Bool = false
+    @State private var hasCheckedAuth: Bool = false
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Group {
+            if !hasCheckedAuth {
+                ProgressView()
+            } else {
+                if isLoggedIn {
+                    ContentView().tint(.green)
+                        .transition(.opacity.combined(with: .scale))
+                } else {
+                    WelcomeView().tint(.green)
+                        .transition(.opacity.combined(with: .scale))
+                }
+            }
+        }.onAppear {
+            Auth.auth().addStateDidChangeListener { auth, user in
+                withAnimation(.easeInOut(duration: 0.35)) {
+                    if user != nil {
+                        isLoggedIn = true
+                    } else {
+                        isLoggedIn = false
+                    }
+                    hasCheckedAuth = true
+                }
+            }
+        }
     }
 }
 

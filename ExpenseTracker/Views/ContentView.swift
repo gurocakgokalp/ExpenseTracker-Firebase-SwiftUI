@@ -43,6 +43,9 @@ struct ContentView: View {
         }.onReceive(NotificationCenter.default.publisher(for: Notification.Name("unlock"))) { _ in
             shouldLock = false
         }
+        .onReceive(NotificationCenter.default.publisher(for: Notification.Name("firstExpense"))) { _ in
+            selectedTab = .AddExpense
+        }
     }
 }
 

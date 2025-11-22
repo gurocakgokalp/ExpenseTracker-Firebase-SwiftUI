@@ -7,9 +7,13 @@
 
 import SwiftUI
 
+
+
 struct DashboardView: View {
     var budgetUsed = 2962.4
-    var budgetTotal = 3000.0
+    //var budgetTotal = 3000.0
+    @StateObject var viewModel = MainViewModel()
+    @State var isSheet: Bool = false
     var body: some View {
         NavigationStack {
             ZStack {
@@ -25,21 +29,21 @@ struct DashboardView: View {
                                     .foregroundColor(AppColors.textSecondary)
                                 
                                 HStack(alignment: .center) {
-                                    Text("$\(String(format: "%.2f", budgetUsed))")
+                                    Text("\(viewModel.currency == .USD ? "$" : "₺")\(String(format: "%.2f", viewModel.totalSpending))")
                                         .font(.system(size: 32, weight: .bold))
                                         .foregroundColor(AppColors.textPrimary)
-                                    Text("/ $\(String(format: "%.2f", budgetTotal))")
+                                    Text("/ \(viewModel.currency == .USD ? "$" : "₺")\(String(format: "%.2f", viewModel.budget))")
                                         .font(.system(size: 14, weight: .semibold))
                                         .foregroundColor(AppColors.textSecondary)
                                 }
                                 
                                 
-                                let statusColor = BudgetStatusColor.color(used: budgetUsed, total: budgetTotal)
+                                let statusColor = BudgetStatusColor.color(used: viewModel.totalSpending, total: viewModel.budget)
                                 
-                                ProgressView(value: budgetUsed / budgetTotal)
+                                ProgressView(value: viewModel.totalSpending / viewModel.budget)
                                     .tint(statusColor)
                                 
-                                Text(BudgetStatusColor.statusText(used: budgetUsed, total: budgetTotal))
+                                Text(BudgetStatusColor.statusText(used: viewModel.totalSpending, total: viewModel.budget, currency: viewModel.currency))
                                     .font(.system(size: 14, weight: .semibold))
                                     .foregroundColor(statusColor)
                                     .padding(.top, 5)
@@ -48,6 +52,7 @@ struct DashboardView: View {
                             .padding(AppTypography.lg)
                         }
                         Spacer(minLength: 20)
+                        
                         ZStack {
                             RoundedRectangle(cornerRadius: 20).fill(Color(.secondarySystemGroupedBackground))
                             VStack(alignment: .leading, spacing: 20) {
@@ -56,76 +61,67 @@ struct DashboardView: View {
                                         .font(.system(size: 14, weight: .semibold))
                                         .foregroundColor(AppColors.textSecondary)
                                     Spacer()
-                                    Text("View All")
-                                        .font(.system(size: 14, weight: .semibold))
-                                        .foregroundColor(AppColors.textTertiary)
+                                    NavigationLink(destination: AllExpensesView()) {
+                                        Text("View All")
+                                            .font(.system(size: 14, weight: .semibold))
+                                            .foregroundColor(AppColors.textTertiary)
+                                    }
+                                    
                                 }
                                 /*
                                 Text(Date().formatted(date: .abbreviated, time: .omitted)).font(.system(size: 20, weight: .bold))
                                 */
-                                ForEach(1...3, id: \.self) { today in
-                                    VStack {
-                                        HStack {
-                                            ZStack {
-                                                RoundedRectangle(cornerRadius: 10, ).frame(width: 35,height: 35)
-                                                    .foregroundStyle(AppColors.bgPrimary)
-                                                    .overlay(RoundedRectangle(cornerRadius: 10, ).stroke(Color(AppColors.catFood),lineWidth: 0.3))
-                                                Text("☕").font(.system(size: 13))
-                                            }
-                                            
-                                            VStack (alignment: .leading) {
-                                                Text("Coffee").font(.system(size: 20, weight: .bold))
-                                                    .foregroundColor(AppColors.textPrimary)
-                                                Text("Kahve Dunyasi").font(.system(size: 14, weight: .semibold))
-                                                    .foregroundColor(AppColors.textSecondary)
-                                            }
-                                            Spacer()
-                                            VStack(alignment: .trailing) {
-                                                Text("$20.0").foregroundStyle(.red).fontWeight(.bold)
-                                                Text(Date().formatted(date: .numeric, time: .shortened)).foregroundStyle(.gray).font(.system(size: AppTypography.tiny))
-                                            }
-                                        }
-                                        RoundedRectangle(cornerRadius: 20 ).frame(height: 0.7).foregroundStyle(.gray).opacity(0.5)
+                                
+                                //
+                                //prefix ilk 3
+                                //suffix son 3
+                                //
+                                if viewModel.expenses.isEmpty {
+                                    HStack(spacing: 10) {
+                                        Image(systemName: "plus.circle.fill")
+                                                        .font(.system(size: 20))
+                                                        .foregroundColor(AppColors.textSecondary)
+                                                        .opacity(0.5)
+                                        VStack(alignment: .leading,spacing: 4) {
+                                                        Text("No expenses recorded")
+                                                            .font(.system(size: 20, weight: .bold))
+                                                            .foregroundColor(AppColors.textPrimary)
+                                                        
+                                                        Text("Add your first expense to get started")
+                                                .font(.system(size: 16, weight: .semibold))
+                                                            .foregroundColor(AppColors.textSecondary)
+                                                    }
+                                    }.onTapGesture {
+                                        print("basildi")
+                                        NotificationCenter.default.post(name: NSNotification.Name("firstExpense"), object: nil)
+                                    }
+                                    
+                                } else {
+                                    ForEach(viewModel.expenses.prefix(5)) { expence in
+                                        ExpenseListView(currencyEnum: viewModel.currency, expense: expence)
                                     }
                                 }
                                 
                             }
                             .padding(AppTypography.lg)
                         }
-                        Spacer(minLength: 20)
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 20).fill(Color(.secondarySystemGroupedBackground))
-                            VStack(alignment: .leading) {
-                                
-                                
-                                HStack(alignment: .center) {
-                                    VStack {
-                                        Image(systemName: "chart.bar.fill").foregroundColor(AppColors.textSecondary)
-                                        Text("Daily Avg")
-                                            .font(.system(size: 10, weight: .semibold))
-                                            .foregroundColor(AppColors.textSecondary).offset(y:7)
-                                    }
-                                    Text("$728.63")
-                                        .font(.system(size: 32, weight: .bold))
-                                        .foregroundColor(AppColors.textPrimary)
-                                    Spacer()
-                                    Text("+12%")
-                                        .font(.system(size: 32, weight: .bold))
-                                        .foregroundColor(AppColors.success)
-                                    VStack {
-                                        Image(systemName: "chart.line.uptrend.xyaxis").foregroundColor(AppColors.textSecondary)
-                                    }
-                                }
-                                
-                            }
-                            .padding(AppTypography.lg)
-                        }
+                        //Spacer(minLength: 20)
+                        //DailyAvgTrendView(viewModel: viewModel)
                         
                     }
                 }.scrollIndicators(.hidden)
+                    .refreshable {
+                        //
+                    }
             }.padding()
                 .navigationTitle("Expense Tracker")
                 .navigationSubtitle(Date().formatted(date: .numeric, time: .omitted))
+                .onAppear{
+                    viewModel.listenCurrency()
+                    viewModel.listenBudget()
+                    viewModel.fetchTotalExpenses()
+                }
+                
         }
     }
 }
