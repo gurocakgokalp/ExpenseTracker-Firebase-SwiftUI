@@ -32,6 +32,8 @@ struct DashboardView: View {
                                     Text("\(viewModel.currency == .USD ? "$" : "₺")\(String(format: "%.2f", viewModel.totalSpending))")
                                         .font(.system(size: 32, weight: .bold))
                                         .foregroundColor(AppColors.textPrimary)
+                                        .transition(.opacity)
+                                        .animation(.smooth, value: viewModel.totalSpending)
                                     Text("/ \(viewModel.currency == .USD ? "$" : "₺")\(String(format: "%.2f", viewModel.budget))")
                                         .font(.system(size: 14, weight: .semibold))
                                         .foregroundColor(AppColors.textSecondary)
@@ -41,12 +43,12 @@ struct DashboardView: View {
                                 let statusColor = BudgetStatusColor.color(used: viewModel.totalSpending, total: viewModel.budget)
                                 
                                 ProgressView(value: viewModel.totalSpending / viewModel.budget)
-                                    .tint(statusColor)
+                                    .tint(statusColor).transition(.slide).animation(.spring(.smooth), value: viewModel.totalSpending)
                                 
                                 Text(BudgetStatusColor.statusText(used: viewModel.totalSpending, total: viewModel.budget, currency: viewModel.currency))
                                     .font(.system(size: 14, weight: .semibold))
-                                    .foregroundColor(statusColor)
-                                    .padding(.top, 5)
+                                    .foregroundColor(statusColor).transition(.opacity)
+                                    .padding(.top, 5).animation(.smooth(), value: viewModel.totalSpending)
                                 
                             }
                             .padding(AppTypography.lg)

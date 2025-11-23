@@ -60,6 +60,16 @@ class FirebaseExpenseProcess {
         }
         
     }
+    func deleteExpense(expense: Expense) async {
+        let userUid = Auth.auth().currentUser!.uid
+        let db = Firestore.firestore()
+        do {
+            try await db.collection("users").document(userUid).collection("expenses")
+                .document(expense.id!).delete()
+        } catch let err {
+            print(err.localizedDescription)
+        }
+    }
 }
 
 class FirebaseUserSProcess {
