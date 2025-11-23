@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ExpenseListView: View {
+    @StateObject var viewModel = MainViewModel()
     @State var currencyEnum: currencyEnum
     var expense: Expense
     init(currencyEnum: currencyEnum, expense: Expense) {
@@ -33,13 +34,15 @@ struct ExpenseListView: View {
                 }
                 Spacer()
                 VStack(alignment: .trailing) {
-                    Text("\(currencyEnum == .USD ? "$" : "₺")\(expense.amountString)").foregroundStyle(.red).fontWeight(.bold)
+                    Text("\(viewModel.currency == .USD ? "$" : "₺")\(expense.amountString)").foregroundStyle(.red).fontWeight(.bold)
                     Text(expense.date.formatted(date: .numeric, time: .shortened)).foregroundStyle(.gray).font(.system(size: AppTypography.tiny))
                 }
             }
             //Custom seperator başlangıç
             //RoundedRectangle(cornerRadius: 20 ).frame(height: 0.7).foregroundStyle(.gray).opacity(0.5)
             //Custom seperator bitiş
+        }.onAppear{
+            viewModel.listenCurrency()
         }
     }
 }
