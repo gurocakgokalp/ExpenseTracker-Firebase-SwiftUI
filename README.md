@@ -1,14 +1,17 @@
-# 💰 Expense Tracker - Firebase SwiftUI
+# 💰 Expense Tracker - Firebase SwiftUI - WIP
 
-SwiftUI ve Firebase ile geliştirilmiş modern bir iOS harcama takip uygulaması. REST API projesiyle başlayan yolculuğumda tam Stack iOS geliştirme deneyimi kazandığım projedir.
+SwiftUI ve Firebase ile geliştirilmiş harcama takip uygulaması. Hala geliştirmeye devam ediyorum. Açık/koyu tema geçişlerinde bazı hatalar mevcut, çözemediğim bugların üzerinde çalışıyorum.
 
 ## 📱 Ekran Görüntüleri
 
 <p align="center">
-  <img src="https://github.com/gurocakgokalp/ExpenseTracker-Firebase-SwiftUI/assets/images/dashboard.png" width="250" alt="Dashboard"/>
-  <img src="https://github.com/gurocakgokalp/ExpenseTracker-Firebase-SwiftUI/assets/images/analytics.png" width="250" alt="Analytics"/>
-  <img src="https://github.com/gurocakgokalp/ExpenseTracker-Firebase-SwiftUI/assets/images/settings.png" width="250" alt="Settings"/>
+  <img src="https://github.com/user-attachments/assets/d30a29fd-f1b3-4a53-aed2-c837c430dc47" width="200" alt="Dashboard"/>
+  <img src="https://github.com/user-attachments/assets/2030f381-1a9c-49c5-811d-d67056ae3a7a" width="200" alt="Analytics"/>
+  <img src="https://github.com/user-attachments/assets/e553a83e-a949-48a1-9b68-7568f546bdea" width="200" alt="Settings"/>
+  <img src="https://github.com/user-attachments/assets/cae59294-3e8e-4248-869b-ac3699dfe79b" width="200" alt="Settings"/>
 </p>
+
+
 
 ## ✨ Özellikler
 
@@ -21,19 +24,16 @@ SwiftUI ve Firebase ile geliştirilmiş modern bir iOS harcama takip uygulaması
 - 🗂️ **Kategori Bazlı Filtreleme** - 6 kategori (Food, Transport, Shopping, Entertainment, Utilities, Other)
 - 💱 **Multi-Currency Support** - USD ve TRY desteği
 - 📱 **Modern Dark Theme UI** - Native iOS tasarımı
-- 🔐 **Güvenli Firebase Entegrasyonu** - Firestore ve Authentication
-- ✏️ **Edit/Delete Fonksiyonları** - Harcamalarınızı düzenleyin veya silin
-- 📋 **Harcama Tarihi** - Tüm harcamalarınız tarih sırasına göre sıralanmıştır
+- 🔐 **Firebase Entegrasyonu** - Firestore ve Authentication
+- ✏️ **Delete** - Harcamalarınızı silin
 
 ### Öne Çıkan SwiftUI Teknikleri:
 
 - **Charts Framework** - Interactive pie chart görselleri
-- **Custom Components** - Reusable card, notification, progress bar tasarımları
 - **TabView** - Navigation tab bar implementasyonu
 - **Picker & DatePicker** - Kullanıcı seçimleri için form elemanları
 - **Real-time Data Binding** - @Published ve @StateObject kullanımı
 - **Conditional View Rendering** - Empty state ve loading state'leri
-- **Custom Colors & Typography** - Unified design system
 
 ## 🛠 Techs
 
@@ -41,23 +41,21 @@ SwiftUI ve Firebase ile geliştirilmiş modern bir iOS harcama takip uygulaması
 - **Firebase Firestore** - Real-time database
 - **Firebase Authentication** - Email/Password auth
 - **Charts** - Interactive chart visualizations
-- **MVVM** - Architectural pattern
-- **Async/Await** - Modern Swift concurrency
+- **MVVM**
+- **Async/Await**
 - **Combine** - Reactive programming
 
 ## 📸 Proje Özellikleri
 
 ### Dashboard
-- Bu ayın toplam harcaması ve bütçesi
+- Toplam harcama ve bütçe
 - Bütçe ilerlemesi görsel gösterge
 - En son 5 harcama listesi
-- Günlük ortalama harcama
 
 ### Analytics
 - Kategori bazlı harcama dağılımı (Pie Chart)
 - Detaylı kategori bilgileri
-- Akıllı İçgörüler (Smart Insights)
-- Tüm zaman veya belli dönem için filtreleme
+- Tüm zaman veya belli dönem için filtreleme (henuz eklenmedi)
 
 ### Settings
 - Hesap bilgileri
@@ -65,20 +63,6 @@ SwiftUI ve Firebase ile geliştirilmiş modern bir iOS harcama takip uygulaması
 - Para birimi seçimi
 - Oturumu Kapat
 
-## 🔐 Güvenlik
-
-- ✅ Firebase Security Rules ile erişim kontrolü
-- ✅ Sensitive files (.gitignore ile korumalı)
-- ✅ Email/Password authentication
-- ✅ User-specific data isolation
-
-## 🎯 Yolculuk
-
-Bu proje REST API ile başlayan geliştirme yolculuğunun devamı:
-- REST API Projesi → Firebase Realtime Database → Firestore (Current)
-- UIKit → SwiftUI Geçişi
-- MVVM Pattern Uygulaması
-- Production-Ready Code Yazımı
 
 ## 📄 Lisans
 
@@ -86,7 +70,7 @@ Bu proje MIT Lisansı altında sunulmaktadır. Daha fazla bilgi için LICENSE do
 
 ## 🙏
 
-- Firebase ile real-time database implementasyonu
+- Firebase ile real-time database
 - SwiftUI ve modern iOS geliştirme için öğrenme projesi
 - Portfolio projesi olarak geliştirilmiştir
 
