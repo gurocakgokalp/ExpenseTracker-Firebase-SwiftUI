@@ -120,20 +120,20 @@ struct AddExpenseView: View {
                             if(category != .None && amountString != "") {
                                 isLoading = true
                                 NotificationCenter.default.post(name: NSNotification.Name("lock"), object: nil)
-                            }
-                            Task {
-                                await FirebaseExpenseProcess().saveExpense(expense: Expense(description: description, amountString: amountString, category: category, date: isDateToday == true ? Date() : date))
-                                
-                                // <--> Default hale Getir <-->
-                                isLoading = false
-                                description = ""
-                                amountString = ""
-                                category = .None
-                                isDateToday = true
-                                // <--> Default hale Getir <-->
-                                
-                                NotificationCenter.default.post(name: NSNotification.Name("unlock"), object: nil)
-                                NotificationCenter.default.post(name: NSNotification.Name("askim"), object: nil)
+                                Task {
+                                    await FirebaseExpenseProcess().saveExpense(expense: Expense(description: description, amountString: amountString, category: category, date: isDateToday == true ? Date() : date))
+                                    
+                                    // <--> Default hale Getir <-->
+                                    isLoading = false
+                                    description = ""
+                                    amountString = ""
+                                    category = .None
+                                    isDateToday = true
+                                    // <--> Default hale Getir <-->
+                                    
+                                    NotificationCenter.default.post(name: NSNotification.Name("unlock"), object: nil)
+                                    NotificationCenter.default.post(name: NSNotification.Name("askim"), object: nil)
+                                }
                             }
                         } label: {
                             ZStack {
