@@ -39,14 +39,14 @@ struct AppColors {
     static let info = Color(red: 0.0, green: 0.7, blue: 1.0)             // #00B3FF - Cyan (Info)
     
     // Backgrounds
-    static let bgPrimary = Color(UIColor.systemBackground)               // White (Light) / Black (Dark)
-    static let bgSecondary = Color(UIColor.secondarySystemBackground)    // Light Gray / Dark Gray
-    static let bgTertiary = Color(UIColor.tertiarySystemBackground)      // Lighter Gray / Darker Gray
+    static let bgPrimary = Color(UIColor.systemBackground)               
+    static let bgSecondary = Color(UIColor.secondarySystemBackground)
+    static let bgTertiary = Color(UIColor.tertiarySystemBackground)
     
     // Text Colors
-    static let textPrimary = Color(UIColor.label)                        // Black (Light) / White (Dark)
-    static let textSecondary = Color(UIColor.secondaryLabel)             // Dark Gray (Light) / Light Gray (Dark)
-    static let textTertiary = Color(UIColor.tertiaryLabel)               // Medium Gray
+    static let textPrimary = Color(UIColor.label)
+    static let textSecondary = Color(UIColor.secondaryLabel)
+    static let textTertiary = Color(UIColor.tertiaryLabel)
     
     // Category Colors (Pie Chart)
     static let catFood = Color(red: 1.0, green: 0.65, blue: 0.0)         // #FFA500 - Orange
@@ -56,16 +56,15 @@ struct AppColors {
     static let catUtilities = Color(red: 1.0, green: 0.85, blue: 0.0)    // #FFD700 - Gold
     static let catOther = Color(red: 0.6, green: 0.6, blue: 0.6)         // #999999 - Gray
     
-    // Chart Colors
-    static let chartLine = Color(red: 0.2, green: 0.5, blue: 1.0)        // #3380FF - Blue (same as primary)
+
+    static let chartLine = Color(red: 0.2, green: 0.5, blue: 1.0)
     static let chartAreaFill = Color(red: 0.2, green: 0.5, blue: 1.0)    // #3380FF with opacity
-    static let chartGrid = Color(red: 0.9, green: 0.9, blue: 0.9)        // #E6E6E6 - Light Gray
+    static let chartGrid = Color(red: 0.9, green: 0.9, blue: 0.9)
     
-    // Borders & Dividers
-    static let border = Color(red: 0.85, green: 0.85, blue: 0.85)        // #D9D9D9
+
+    static let border = Color(red: 0.85, green: 0.85, blue: 0.85)
     static let divider = Color(UIColor.separator)                        // System separator
-    
-    // Shadows
+
     static let shadowLight = Color.black.opacity(0.1)
     static let shadowMedium = Color.black.opacity(0.2)
     static let shadowDark = Color.black.opacity(0.3)
@@ -131,11 +130,11 @@ struct BudgetStatusColor {
     static func color(used: Double, total: Double) -> Color {
         let percentage = used / total
         
-        if percentage > 1.0 {                  // Over budget
-            return AppColors.danger            // 🔴 Red
-        } else if percentage > 0.95 {          // >95% used
-            return AppColors.warning           // 🟡 Orange
-        } else if percentage > 0.80 {          // >80% used
+        if percentage > 1.0 {
+            return AppColors.danger
+        } else if percentage > 0.95 {
+            return AppColors.warning
+        } else if percentage > 0.80 {
             return AppColors.info
         } else {
             return AppColors.success
