@@ -1,6 +1,6 @@
 # 💰 Expense Tracker - Firebase SwiftUI - WIP
 
-SwiftUI ve Firebase ile geliştirilmiş harcama takip uygulaması. Hala geliştirmeye devam ediyorum. Açık/koyu tema geçişleri gibi bazı konularda hatalar şu an için mevcut. Boş vaktimde düzelteceğim.
+SwiftUI ve Firebase ile geliştirilmiş harcama takip uygulaması. Açık/koyu tema geçişleri gibi bazı konularda hatalar şu an için mevcut. Boş vaktimde eksikleri ve hataları düzelteceğim.
 
 ## 📱 Ekran Görüntüleri
 
