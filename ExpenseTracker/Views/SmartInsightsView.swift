@@ -31,7 +31,7 @@ struct SmartInsightsView: View {
                     RoundedRectangle(cornerRadius: 20 ).frame(height: 0.7).foregroundStyle(.gray).opacity(0.5)
                     HStack {
                         Text("📈").font(.system(size: 20))
-                        Text("Spending trend: Slightly increasing ↑").fontWeight(.semibold)
+                        Text("Spending trend: Slightly increasing").fontWeight(.semibold)
                     }
                 }
             }.padding(AppTypography.lg)
